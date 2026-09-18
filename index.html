@@ -3,44 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>KALI MEESHO BOT</title>
+  <title>MEESHO LOOT BOT</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #f7f2ea; color: #2d3748; padding-bottom: 90px; }
-
-    :root {
-      --grad-btn: linear-gradient(135deg, #1e3a5f 0%, #2b5876 50%, #b8860b 100%);
-      --card-bg: #ffffff;
-    }
+    :root { --grad-btn: linear-gradient(135deg, #1e3a5f 0%, #2b5876 50%, #b8860b 100%); --card-bg: #ffffff; }
 
     /* Top Bar */
     .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; gap: 8px; }
-    .avatar-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--grad-btn); color: #fff; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    .phone-pill { flex: 1; background: #e9eef5; padding: 10px 14px; border-radius: 25px; font-size: 13px; font-weight: 600; color: #1a202c; display: flex; align-items: center; justify-content: space-between; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
-    .wallet-pill { background: var(--grad-btn); color: #fff; padding: 8px 14px; border-radius: 25px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+    .avatar-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--grad-btn); color: #fff; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+    .phone-pill { flex: 1; background: #e9eef5; padding: 10px 14px; border-radius: 25px; font-size: 13px; font-weight: 600; color: #1a202c; display: flex; align-items: center; justify-content: space-between; }
+    .wallet-pill { background: var(--grad-btn); color: #fff; padding: 8px 14px; border-radius: 25px; font-size: 13px; font-weight: 700; }
 
-    /* Nav Switcher */
-    .switch-wrap { display: flex; background: #fff; margin: 8px 14px; border-radius: 30px; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    /* Switch */
+    .switch-wrap { display: flex; background: #fff; margin: 8px 14px; border-radius: 30px; padding: 4px; }
     .switch-item { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; border-radius: 25px; cursor: pointer; color: #4a5568; }
     .switch-item.active { background: var(--grad-btn); color: #fff; }
 
-    /* Search Box with GO Button */
+    /* Search */
     .search-wrap { display: flex; gap: 8px; margin: 8px 14px; }
-    .search-box { flex: 1; background: #fff; border-radius: 25px; display: flex; align-items: center; padding: 10px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .search-box { flex: 1; background: #fff; border-radius: 25px; display: flex; align-items: center; padding: 10px 16px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 14px; background: transparent; color: #2d3748; }
-    .btn-search-go { background: var(--grad-btn); color: #fff; border: none; border-radius: 25px; padding: 0 18px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(30,58,95,0.3); }
+    .btn-search-go { background: var(--grad-btn); color: #fff; border: none; border-radius: 25px; padding: 0 18px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
-    /* Scroll Filter Chips */
+    /* Chips */
     .pill-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 6px 14px; scrollbar-width: none; }
     .pill-scroll::-webkit-scrollbar { display: none; }
-    .chip { background: #fff; padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; color: #4a5568; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.04); cursor: pointer; }
+    .chip { background: #fff; padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; color: #4a5568; border: none; cursor: pointer; }
     .chip.active { background: var(--grad-btn); color: #fff; }
 
-    /* Product Grid */
+    /* Grid */
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 14px; }
     .card { background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.05); display: flex; flex-direction: column; cursor: pointer; }
-    .card-img-wrap { width: 100%; height: 160px; overflow: hidden; background: #eaeaea; position: relative; }
+    .card-img-wrap { width: 100%; height: 160px; overflow: hidden; background: #eaeaea; }
     .card-img { width: 100%; height: 100%; object-fit: cover; }
     .card-body { padding: 10px; display: flex; flex-direction: column; gap: 4px; flex-grow: 1; }
     .card-title { font-size: 12px; font-weight: 600; line-height: 1.3; height: 32px; overflow: hidden; color: #2d3748; }
@@ -51,184 +47,125 @@
     .meta-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #718096; margin-top: 2px; }
     .rating-badge { background: #fefcbf; color: #744210; padding: 1px 6px; border-radius: 10px; font-size: 10px; font-weight: 700; }
     .dispatch-badge { font-size: 9px; color: #d69e2e; font-weight: 700; text-transform: uppercase; margin-top: 3px; }
-    .btn-add-card { margin-top: 6px; width: 100%; padding: 7px; background: var(--grad-btn); color: #fff; border: none; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.1); cursor: pointer; }
+    .btn-add-card { margin-top: 6px; width: 100%; padding: 7px; background: var(--grad-btn); color: #fff; border: none; border-radius: 15px; font-size: 11px; font-weight: 700; cursor: pointer; }
 
-    /* Loading Status Indicator */
-    .status-msg { grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: #718096; font-size: 13px; font-weight: 600; }
-
-    /* Product Detail Modal View */
+    /* Detail Modal */
     #detailView { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #faf6f0; z-index: 200; overflow-y: auto; padding-bottom: 85px; }
     .detail-header { position: sticky; top: 0; background: #fff; padding: 12px 14px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #edf2f7; z-index: 10; }
     .back-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e2e8f0; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
-    .detail-title-top { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .detail-img-box { width: 100%; height: 320px; background: #fff; }
     .detail-img-box img { width: 100%; height: 100%; object-fit: cover; }
     .detail-content { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
-    .detail-card { background: #fff; border-radius: 18px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .detail-card { background: #fff; border-radius: 18px; padding: 14px; }
     .banner-prepaid { background: #ebf8ff; color: #2b6cb0; padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 6px; }
-    .banner-special { background: #e6fffa; color: #234e52; padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 6px; }
-    .delivery-info { font-size: 12px; color: #4a5568; line-height: 1.8; margin-top: 6px; }
-    
-    /* Size Options */
-    .sizes-wrap { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-    .size-pill { background: #edf2f7; color: #2d3748; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e0; }
-    .size-pill.active { background: var(--grad-btn); color: #fff; border-color: transparent; }
-
-    /* Customer Reviews Rating Bars */
-    .bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin-top: 6px; font-weight: 600; }
-    .bar-outer { width: 100%; height: 8px; background: #feebc8; border-radius: 5px; overflow: hidden; margin-top: 3px; }
+    .sizes-wrap { display: flex; gap: 8px; margin-top: 6px; }
+    .size-pill { background: #edf2f7; color: #2d3748; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .size-pill.active { background: var(--grad-btn); color: #fff; }
+    .bar-row { display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; font-weight: 600; }
+    .bar-outer { width: 100%; height: 8px; background: #feebc8; border-radius: 5px; margin-top: 3px; }
     .bar-inner { height: 100%; background: #d69e2e; border-radius: 5px; }
-
-    /* Specifications Table */
-    .spec-table { width: 100%; font-size: 12px; color: #4a5568; border-collapse: collapse; margin-top: 6px; }
-    .spec-table td { padding: 6px 0; border-bottom: 1px dashed #e2e8f0; }
-    .spec-table td:first-child { color: #718096; width: 40%; }
-
-    /* Sticky Bottom Actions */
     .detail-bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px 14px; display: flex; gap: 10px; border-top: 1px solid #edf2f7; z-index: 210; }
-    .btn-buy { flex: 1; padding: 12px; background: #fff; color: #1a365d; border: 1.5px solid #1a365d; border-radius: 25px; font-weight: 700; font-size: 13px; cursor: pointer; }
-    .btn-cart { flex: 1; padding: 12px; background: var(--grad-btn); color: #fff; border: none; border-radius: 25px; font-weight: 700; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; }
+    .btn-buy { flex: 1; padding: 12px; background: #fff; color: #1a365d; border: 1.5px solid #1a365d; border-radius: 25px; font-weight: 700; cursor: pointer; }
+    .btn-cart { flex: 1; padding: 12px; background: var(--grad-btn); color: #fff; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; }
 
-    /* Bottom Capsule Dock */
+    /* Dock */
     .bottom-dock { position: fixed; bottom: 12px; left: 14px; right: 14px; height: 60px; background: #ffffff; border-radius: 35px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.08); z-index: 100; }
-    .dock-btn { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 600; color: #718096; gap: 2px; cursor: pointer; }
+    .dock-btn { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 600; color: #718096; gap: 2px; }
     .dock-btn.active { color: #1a365d; }
-    .dock-icon { font-size: 16px; }
   </style>
 </head>
 <body>
 
-  <!-- Top App Bar -->
   <div class="top-bar">
-    <div class="avatar-btn">K</div>
-    <div class="phone-pill">
-      <span>📱 63802 16979</span>
-      <span style="font-size:10px;">▼</span>
-    </div>
+    <div class="avatar-btn">M</div>
+    <div class="phone-pill"><span>📱 63802 16979</span><span>▼</span></div>
     <div class="wallet-pill">💰 ₹10</div>
   </div>
 
-  <!-- Search / Link Switch -->
   <div class="switch-wrap">
     <div class="switch-item active">🔍 Search</div>
-    <div class="switch-item" onclick="promptMeeshoLink()">🔗 By Link</div>
+    <div class="switch-item" onclick="alert('Paste Meesho Link')">🔗 By Link</div>
   </div>
 
-  <!-- Search Input With GO Button -->
   <div class="search-wrap">
     <div class="search-box">
       <span style="margin-right:8px;">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search kurtis, saree, t-shirts, shoes..." onkeydown="if(event.key==='Enter') executeSearch()">
+      <input type="text" id="searchInput" placeholder="Search kurtis, saree, shoes, gadgets..." onkeydown="if(event.key==='Enter') doSearch()">
     </div>
-    <button class="btn-search-go" onclick="executeSearch()">Go</button>
+    <button class="btn-search-go" onclick="doSearch()">Go</button>
   </div>
 
-  <!-- Filter Chips -->
   <div class="pill-scroll">
-    <button class="chip active" onclick="setFilter('trending', this)">😍 Trending</button>
-    <button class="chip" onclick="setFilter('deals', this)">🔥 Deals</button>
-    <button class="chip" onclick="setFilter('womens-dresses', this)">👗 Kurti & Saree</button>
-    <button class="chip" onclick="setFilter('mens-shirts', this)">👕 Men's Wear</button>
-    <button class="chip" onclick="setFilter('mobile-accessories', this)">🎧 Gadgets</button>
-    <button class="chip" onclick="setFilter('mens-shoes', this)">👟 Footwear</button>
-    <button class="chip" onclick="setFilter('beauty', this)">💄 Beauty</button>
+    <button class="chip active" onclick="filterCat('all', this)">😍 Trending</button>
+    <button class="chip" onclick="filterCat('kurti', this)">👗 Kurti & Saree</button>
+    <button class="chip" onclick="filterCat('shirt', this)">👕 Men's Wear</button>
+    <button class="chip" onclick="filterCat('earphone', this)">🎧 Gadgets</button>
+    <button class="chip" onclick="filterCat('shoes', this)">👟 Footwear</button>
+    <button class="chip" onclick="filterCat('watch', this)">⌚ Watches</button>
   </div>
 
-  <!-- Sort Chips -->
-  <div class="pill-scroll" style="padding-top:2px;">
-    <button class="chip active" onclick="sortItems('rel')">Relevance</button>
-    <button class="chip" onclick="sortItems('asc')">Price ↑</button>
-    <button class="chip" onclick="sortItems('desc')">Price ↓</button>
-  </div>
+  <div class="grid" id="productGrid"></div>
 
-  <!-- Products Grid -->
-  <div class="grid" id="productGrid">
-    <div class="status-msg">🔄 Loading all live Meesho products...</div>
-  </div>
-
-  <!-- Bottom Capsule Dock -->
   <div class="bottom-dock">
-    <div class="dock-btn active"><span class="dock-icon">🔍</span>Search</div>
-    <div class="dock-btn" onclick="alert('Cart empty! Select items to add.')"><span class="dock-icon">🛒</span>Cart</div>
-    <div class="dock-btn" onclick="alert('No orders yet.')"><span class="dock-icon">📦</span>Orders</div>
-    <div class="dock-btn" onclick="alert('Address: Rajasthan, India')"><span class="dock-icon">📍</span>Address</div>
-    <div class="dock-btn" onclick="alert('Invite & Earn up to ₹250 wallet balance!')"><span class="dock-icon">🎁</span>Refer</div>
-    <div class="dock-btn" onclick="alert('Account active: +91 63802 16979')"><span class="dock-icon">👤</span>Account</div>
+    <div class="dock-btn active"><span>🔍</span>Search</div>
+    <div class="dock-btn"><span>🛒</span>Cart</div>
+    <div class="dock-btn"><span>📦</span>Orders</div>
+    <div class="dock-btn"><span>📍</span>Address</div>
+    <div class="dock-btn"><span>🎁</span>Refer</div>
+    <div class="dock-btn"><span>👤</span>Account</div>
   </div>
 
-  <!-- Product Detail Page (Modal) -->
   <div id="detailView">
     <div class="detail-header">
       <div class="back-btn" onclick="closeDetail()">←</div>
-      <div class="detail-title-top" id="dTopTitle">Product Details</div>
+      <div id="dTopTitle" style="font-size:13px; font-weight:600; overflow:hidden; white-space:nowrap;">Product Details</div>
     </div>
-    <div class="detail-img-box">
-      <img id="dImg" src="" alt="Product">
-    </div>
+    <div class="detail-img-box"><img id="dImg" src=""></div>
     <div class="detail-content">
       <div class="detail-card">
-        <h3 id="dTitle" style="font-size:14px; font-weight:600; color:#1a202c; line-height:1.4;"></h3>
+        <h3 id="dTitle" style="font-size:14px; font-weight:600;"></h3>
         <div class="price-row" style="margin-top:8px;">
           <span class="price-main" id="dPrice" style="font-size:20px;"></span>
           <span class="price-mrp" id="dMrp" style="font-size:14px;"></span>
           <span class="off-pill" id="dOff"></span>
         </div>
-        <div class="banner-prepaid" id="dPrepaid">⚡ ₹93 with prepaid • ₹22 off</div>
+        <div class="banner-prepaid" id="dPrepaid"></div>
         <div class="meta-row" style="margin-top:8px;">
-          <span class="rating-badge" id="dRating">★ 3.9</span>
-          <span id="dReviews">8,338 ratings</span>
+          <span class="rating-badge" id="dRating">★ 4.2</span>
+          <span id="dReviews">9,120 ratings</span>
         </div>
-        <div style="font-size:12px; color:#718096; margin-top:4px;" id="dSeller">Sold by SMKNTEnterprises • ★ 4.0 (66,059 ratings)</div>
-        
-        <div class="delivery-info">
-          🚚 Delivery by — <strong id="dDeliveryDate">Wednesday, 23 Sep</strong><br>
+        <div style="font-size:12px; color:#718096; margin-top:4px;" id="dSeller">Sold by Meesho Verified Seller</div>
+        <div style="font-size:12px; color:#4a5568; line-height:1.8; margin-top:6px;">
+          🚚 Delivery by — <strong>Wednesday, 23 Sep</strong><br>
           📦 Delivery FREE<br>
           💵 Cash on Delivery available
         </div>
-        
-        <div class="banner-special" id="dSpecialOffer">🎉 ₹93 with 1 Special Offer</div>
       </div>
 
-      <!-- Size Selector -->
       <div class="detail-card">
         <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Select size</div>
-        <div class="sizes-wrap" id="sizeOptions">
-          <div class="size-pill active" onclick="selectSize(this)">Free Size</div>
-          <div class="size-pill" onclick="selectSize(this)">S</div>
-          <div class="size-pill" onclick="selectSize(this)">M</div>
-          <div class="size-pill" onclick="selectSize(this)">L</div>
-          <div class="size-pill" onclick="selectSize(this)">XL</div>
+        <div class="sizes-wrap">
+          <div class="size-pill active">Free Size</div>
+          <div class="size-pill">S</div>
+          <div class="size-pill">M</div>
+          <div class="size-pill">L</div>
         </div>
       </div>
 
-      <!-- Customer Reviews Graph -->
       <div class="detail-card">
         <div style="font-size:13px; font-weight:700;">What customers say</div>
-        <div class="bar-row"><span>Ok-Ok Color</span><span style="color:#d69e2e;" id="dBarColorVal">66%</span></div>
-        <div class="bar-outer"><div class="bar-inner" id="dBarColor" style="width:66%;"></div></div>
-        <div class="bar-row"><span>Ok-Ok Material</span><span style="color:#d69e2e;" id="dBarMatVal">67%</span></div>
-        <div class="bar-outer"><div class="bar-inner" id="dBarMat" style="width:67%;"></div></div>
-        <div class="bar-row"><span>Ok-Ok Quantity</span><span style="color:#d69e2e;" id="dBarQtyVal">69%</span></div>
-        <div class="bar-outer"><div class="bar-inner" id="dBarQty" style="width:69%;"></div></div>
-      </div>
-
-      <!-- Product Specifications -->
-      <div class="detail-card">
-        <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Product details</div>
-        <table class="spec-table">
-          <tr><td>Name</td><td id="dSpecName">Highlighter pens set</td></tr>
-          <tr><td>Net Quantity</td><td>1 Piece / Set</td></tr>
-          <tr><td>Dispatch Time</td><td>Within 1-2 Days</td></tr>
-          <tr><td>Country of Origin</td><td>India</td></tr>
-        </table>
-        <p id="dDescription" style="font-size:12px; color:#4a5568; line-height:1.6; margin-top:10px;"></p>
+        <div class="bar-row"><span>Ok-Ok Color</span><span style="color:#d69e2e;">66%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:66%;"></div></div>
+        <div class="bar-row"><span>Ok-Ok Material</span><span style="color:#d69e2e;">67%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:67%;"></div></div>
+        <div class="bar-row"><span>Ok-Ok Quantity</span><span style="color:#d69e2e;">69%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:69%;"></div></div>
       </div>
     </div>
 
-    <!-- Bottom Actions -->
     <div class="detail-bottom-bar">
-      <button class="btn-buy" onclick="submitOrder('BUY_NOW')">Buy Now</button>
-      <button class="btn-cart" onclick="submitOrder('ADD_CART')">Add to Cart 🛒</button>
+      <button class="btn-buy" onclick="orderNow()">Buy Now</button>
+      <button class="btn-cart" onclick="orderNow()">Add to Cart 🛒</button>
     </div>
   </div>
 
@@ -236,140 +173,103 @@
     const tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); tg.ready(); }
 
-    let allProducts = [];
-    let displayedProducts = [];
-    let selectedItem = null;
-    let chosenSize = "Free Size";
-
-    // Initial Core Meesho Showcase
-    const SEED_PRODUCTS = [
-      {
-        id: 101,
-        category: "trending",
-        title: "Trending linear roller curve highlighter pens set of 6 (Multicolor).",
-        price: 113,
-        mrp: 115,
-        prepaid: 93,
-        img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500&q=80",
-        rating: "★ 3.9",
-        reviews: "8,338 ratings",
-        seller: "SMKNTEnterprises",
-        desc: "Linear roller highlighter pens are a versatile and indispensable tool for students and professionals. Offers precision, vibrant colors, and unique curve patterns."
-      },
-      {
-        id: 102,
-        category: "trending",
-        title: "Women Oval Sunglasses Classic Vintage UV400 Protection Shade",
-        price: 159,
-        mrp: 160,
-        prepaid: 139,
-        img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80",
-        rating: "★ 4.2",
-        reviews: "4,210 ratings",
-        seller: "A LUINS",
-        desc: "Retro oval sunglasses with UV 400 protection. Premium metal hinge and lightweight frame suitable for all facial shapes."
-      },
-      {
-        id: 103,
-        category: "womens-dresses",
-        title: "Women Floral Printed Pure Cotton Anarkali Flared Kurti",
-        price: 145,
-        mrp: 499,
-        prepaid: 115,
-        img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80",
-        rating: "★ 4.3",
-        reviews: "11,200 ratings",
-        seller: "Ridhi Sidhi Fashion",
-        desc: "Breathable pure cotton fabric, gorgeous floral anarkali print with round neck and 3/4 sleeves."
-      },
-      {
-        id: 104,
-        category: "mobile-accessories",
-        title: "Wireless Bluetooth Magnetic Neckband 40H Playtime Fast Charge",
-        price: 129,
-        mrp: 549,
-        prepaid: 99,
-        img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80",
-        rating: "★ 4.1",
-        reviews: "18,400 ratings",
-        seller: "SoundPro India",
-        desc: "Enriched with deep bass drivers, dual pairing support, magnetic earbuds lock, and type-C fast charging."
-      },
-      {
-        id: 105,
-        category: "mens-shoes",
-        title: "Lightweight Breathable Mesh Running Walking Sports Shoes",
-        price: 149,
-        mrp: 599,
-        prepaid: 119,
-        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",
-        rating: "★ 4.4",
-        reviews: "9,650 ratings",
-        seller: "StepWell Footwear",
-        desc: "High quality EVA sole with anti-skid grip. Perfect for daily jogging, gym, running and casual outings."
-      },
-      {
-        id: 106,
-        category: "mens-shirts",
-        title: "Men Pure Cotton Oversized Graphic Printed Casual T-Shirt",
-        price: 125,
-        mrp: 399,
-        prepaid: 99,
-        img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80",
-        rating: "★ 4.0",
-        reviews: "6,410 ratings",
-        seller: "Urban Vogue Co",
-        desc: "100% combed cotton, bio-washed fabric for smooth handfeel. Drop shoulder streetwear fit."
-      }
+    const PRODUCTS = [
+      { id: 1, cat: "kurti", title: "Women Floral Printed Pure Cotton Anarkali Kurti", price: 119, mrp: 499, prepaid: 95, img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80", rating: "★ 4.3", seller: "Ridhi Sidhi Fashion" },
+      { id: 2, cat: "shirt", title: "Men Pure Cotton Oversized Graphic Printed T-Shirt", price: 115, mrp: 399, prepaid: 93, img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80", rating: "★ 4.0", seller: "Urban Vogue Co" },
+      { id: 3, cat: "earphone", title: "Wireless Bluetooth Magnetic Neckband 40H Playtime", price: 129, mrp: 549, prepaid: 99, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80", rating: "★ 4.1", seller: "SoundPro India" },
+      { id: 4, cat: "shoes", title: "Lightweight Breathable Mesh Running Sports Shoes", price: 149, mrp: 599, prepaid: 119, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80", rating: "★ 4.4", seller: "StepWell Footwear" },
+      { id: 5, cat: "watch", title: "Classic Minimalist Matte Analog Dial Wrist Watch", price: 110, mrp: 450, prepaid: 89, img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&q=80", rating: "★ 4.2", seller: "TimeCrafters" },
+      { id: 6, cat: "all", title: "Trending linear roller curve highlighter pens set of 6", price: 113, mrp: 115, prepaid: 93, img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500&q=80", rating: "★ 3.9", seller: "SMKNTEnterprises" },
+      { id: 7, cat: "all", title: "Women Oval Sunglasses Classic Vintage UV400", price: 159, mrp: 160, prepaid: 139, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80", rating: "★ 4.2", seller: "A LUINS" },
+      { id: 8, cat: "kurti", title: "Embroidered Georgette Designer Partywear Saree", price: 135, mrp: 599, prepaid: 110, img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500&q=80", rating: "★ 4.5", seller: "Shree Saree Bhandar" },
+      { id: 9, cat: "shirt", title: "Men Slim Fit Casual Cargo Pants with Pockets", price: 145, mrp: 549, prepaid: 115, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500&q=80", rating: "★ 4.0", seller: "StyleZone Menswear" },
+      { id: 10, cat: "earphone", title: "Deep Bass Type-C Gaming In-Ear Earphones", price: 99, mrp: 299, prepaid: 79, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80", rating: "★ 3.8", seller: "TechGear Accessories" },
+      { id: 11, cat: "shoes", title: "Casual Daily Wear Slip-on Canvas Loafers", price: 125, mrp: 450, prepaid: 99, img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500&q=80", rating: "★ 4.2", seller: "TrendyFootwear" },
+      { id: 12, cat: "all", title: "Organic Vitamin-C Face Serum with Hyaluronic Acid", price: 105, mrp: 420, prepaid: 85, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80", rating: "★ 4.4", seller: "GlowAura Organics" }
     ];
 
-    // Load 100+ Live Items from Public Store API
-    async function initCatalog() {
-      allProducts = [...SEED_PRODUCTS];
-      renderGrid(allProducts);
+    let currentList = [...PRODUCTS];
+    let selected = null;
 
-      try {
-        const res = await fetch("https://dummyjson.com/products?limit=60");
-        const data = await res.json();
-        if (data.products && data.products.length > 0) {
-          const apiProducts = data.products.map(p => {
-            const price = Math.round(p.price * 5) + 40; // Convert to ₹90-₹180 bracket
-            const mrp = Math.round(price * 1.6);
-            const prepaid = price - 20;
+    function render(items) {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+      if (items.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#718096;font-size:13px;">❌ No products found for this search!</div>';
+        return;
+      }
+      items.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => showDetail(p);
+        card.innerHTML = `
+          <div class="card-img-wrap"><img src="${p.img}" class="card-img" alt="${p.title}" loading="lazy"></div>
+          <div class="card-body">
+            <div class="card-title">${p.title}</div>
+            <div class="price-row">
+              <span class="price-main">₹${p.price}</span>
+              <span class="price-mrp">₹${p.mrp}</span>
+              <span class="off-pill">₹${p.mrp - p.price} off</span>
+            </div>
+            <div class="meta-row">
+              <span class="rating-badge">${p.rating}</span>
+              <span>${p.seller.substring(0, 14)}</span>
+            </div>
+            <div class="dispatch-badge">⚡ NEXT DAY DISPATCH</div>
+            <button class="btn-add-card" onclick="event.stopPropagation(); showDetail(${JSON.stringify(p).replace(/"/g, '&quot;')})">Add</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-            return {
-              id: p.id,
-              category: p.category,
-              title: p.title + " - " + p.description.substring(0, 45),
-              price: price,
-              mrp: mrp,
-              prepaid: prepaid,
-              img: p.thumbnail,
-              rating: "★ " + (p.rating || 4.0).toFixed(1),
-              reviews: `${Math.floor(Math.random() * 8000) + 1200} ratings`,
-              seller: p.brand ? `${p.brand} Enterprises` : "SMKNTEnterprises",
-              desc: p.description
-            };
-          });
+    function doSearch() {
+      const q = document.getElementById("searchInput").value.toLowerCase().trim();
+      if (!q) { render(PRODUCTS); return; }
+      const res = PRODUCTS.filter(p => p.title.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+      render(res);
+    }
 
-          allProducts = [...SEED_PRODUCTS, ...apiProducts];
-          renderGrid(allProducts);
-        }
-      } catch (err) {
-        console.log("Using seeded Meesho products:", err);
+    function filterCat(cat, el) {
+      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      if (el) el.classList.add("active");
+      document.getElementById("searchInput").value = "";
+      if (cat === "all") {
+        render(PRODUCTS);
+      } else {
+        render(PRODUCTS.filter(p => p.cat === cat || p.title.toLowerCase().includes(cat)));
       }
     }
 
-    function renderGrid(items) {
-      const grid = document.getElementById("productGrid");
-      grid.innerHTML = "";
-      displayedProducts = items;
+    function showDetail(p) {
+      selected = p;
+      document.getElementById("dTopTitle").innerText = p.title;
+      document.getElementById("dImg").src = p.img;
+      document.getElementById("dTitle").innerText = p.title;
+      document.getElementById("dPrice").innerText = "₹" + p.price;
+      document.getElementById("dMrp").innerText = "₹" + p.mrp;
+      document.getElementById("dOff").innerText = "₹" + (p.mrp - p.price) + " off";
+      document.getElementById("dPrepaid").innerText = `⚡ ₹${p.prepaid} with prepaid • ₹${p.price - p.prepaid} off`;
+      document.getElementById("dRating").innerText = p.rating;
+      document.getElementById("dSeller").innerText = `Sold by ${p.seller}`;
+      document.getElementById("detailView").style.display = "block";
+    }
 
-      if (items.length === 0) {
-        grid.innerHTML = '<div class="status-msg">❌ No products found! Try a different word or press Go.</div>';
-        return;
+    function closeDetail() {
+      document.getElementById("detailView").style.display = "none";
+    }
+
+    function orderNow() {
+      if (!selected) return;
+      if (tg) {
+        tg.sendData(JSON.stringify({ product: selected.title, price: selected.prepaid }));
+        tg.close();
+      } else {
+        alert("Order placed: " + selected.title + " for ₹" + selected.prepaid);
       }
+    }
 
-      items.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "card
+    render(PRODUCTS);
+  </script>
+</body>
+</html>
