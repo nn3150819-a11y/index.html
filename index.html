@@ -3,225 +3,356 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Meesho Loot Store</title>
+  <title>KALI MEESHO BOT</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #f7f7f9; color: #222; padding-bottom: 75px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #f7f2ea; color: #2d3748; padding-bottom: 90px; }
 
-    /* Header */
-    .header { position: sticky; top: 0; background: #fff; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .header-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; }
-    .brand { font-size: 20px; font-weight: 900; color: #9c27b0; }
-    .brand span { color: #f43397; }
-    .offer-pill { background: #ffe6f0; color: #f43397; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid #ffb3d1; }
+    /* Theme Gradients & Colors */
+    :root {
+      --grad-btn: linear-gradient(135deg, #1e3a5f 0%, #2b5876 50%, #b8860b 100%);
+      --card-bg: #ffffff;
+      --pill-bg: #ffffff;
+      --text-muted: #718096;
+    }
 
-    /* Search Bar */
-    .search-wrap { padding: 0 14px 10px 14px; }
-    .search-box { width: 100%; padding: 11px 14px; border-radius: 8px; border: 1px solid #ddd; background: #f9f9fb; font-size: 14px; outline: none; }
+    /* Top Bar */
+    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; gap: 8px; }
+    .avatar-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--grad-btn); color: #fff; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .phone-pill { flex: 1; background: #e9eef5; padding: 10px 14px; border-radius: 25px; font-size: 13px; font-weight: 600; color: #1a202c; display: flex; align-items: center; justify-content: space-between; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+    .wallet-pill { background: var(--grad-btn); color: #fff; padding: 8px 14px; border-radius: 25px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
 
-    /* Categories Scroll */
-    .categories { display: flex; overflow-x: auto; gap: 8px; padding: 6px 14px 12px 14px; scrollbar-width: none; }
-    .categories::-webkit-scrollbar { display: none; }
-    .cat-btn { padding: 6px 14px; border-radius: 20px; background: #eee; font-size: 12px; font-weight: 600; white-space: nowrap; border: none; cursor: pointer; color: #555; }
-    .cat-btn.active { background: #9c27b0; color: #fff; }
+    /* Nav Switcher */
+    .switch-wrap { display: flex; background: var(--pill-bg); margin: 8px 14px; border-radius: 30px; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .switch-item { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; border-radius: 25px; cursor: pointer; color: #4a5568; }
+    .switch-item.active { background: var(--grad-btn); color: #fff; box-shadow: 0 2px 8px rgba(30,58,95,0.3); }
 
-    /* Product Grid */
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
-    .card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
-    .card-img-wrap { width: 100%; height: 165px; overflow: hidden; background: #f0f0f0; position: relative; }
+    /* Search Box */
+    .search-box { margin: 8px 14px; background: #fff; border-radius: 25px; display: flex; align-items: center; padding: 10px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .search-box input { border: none; outline: none; width: 100%; font-size: 14px; background: transparent; color: #2d3748; }
+
+    /* Scroll Pills */
+    .pill-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 6px 14px; scrollbar-width: none; }
+    .pill-scroll::-webkit-scrollbar { display: none; }
+    .chip { background: #fff; padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; color: #4a5568; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .chip.active { background: var(--grad-btn); color: #fff; }
+
+    /* 2 Column Product Grid */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 14px; }
+    .card { background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.05); display: flex; flex-direction: column; cursor: pointer; }
+    .card-img-wrap { width: 100%; height: 160px; overflow: hidden; background: #eaeaea; }
     .card-img { width: 100%; height: 100%; object-fit: cover; }
-    .tag-badge { position: absolute; top: 8px; left: 8px; background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
-    
-    .card-details { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
-    .title { font-size: 12px; font-weight: 500; height: 34px; overflow: hidden; line-height: 1.3; color: #333; margin-bottom: 6px; }
+    .card-body { padding: 10px; display: flex; flex-direction: column; gap: 4px; flex-grow: 1; }
+    .card-title { font-size: 12px; font-weight: 600; line-height: 1.3; height: 32px; overflow: hidden; color: #2d3748; }
     .price-row { display: flex; align-items: baseline; gap: 6px; }
-    .price-upi { font-size: 16px; font-weight: 800; color: #2e7d32; }
-    .price-mrp { font-size: 11px; color: #888; text-decoration: line-through; }
-    .discount-badge { font-size: 10px; color: #d32f2f; font-weight: 700; }
-    .cod-note { font-size: 10px; color: #777; margin-top: 3px; }
+    .price-main { font-size: 15px; font-weight: 700; color: #1a365d; }
+    .price-mrp { font-size: 11px; color: #a0aec0; text-decoration: line-through; }
+    .off-pill { font-size: 10px; background: #e6fffa; color: #234e52; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+    .meta-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #718096; margin-top: 2px; }
+    .rating-badge { background: #fefcbf; color: #744210; padding: 1px 6px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .dispatch-badge { font-size: 9px; color: #d69e2e; font-weight: 700; text-transform: uppercase; margin-top: 3px; }
+    .btn-add-card { margin-top: 6px; width: 100%; padding: 7px; background: var(--grad-btn); color: #fff; border: none; border-radius: 15px; font-size: 11px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 
-    .btn-claim { margin-top: 8px; width: 100%; padding: 8px; border: none; background: #9c27b0; color: #fff; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-    .btn-claim:active { transform: scale(0.97); }
+    /* Product Detail Modal View */
+    #detailView { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #faf6f0; z-index: 200; overflow-y: auto; padding-bottom: 80px; }
+    .detail-header { position: sticky; top: 0; background: #fff; padding: 12px 14px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #edf2f7; z-index: 10; }
+    .back-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e2e8f0; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+    .detail-title-top { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .detail-img-box { width: 100%; height: 320px; background: #fff; }
+    .detail-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-content { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .detail-card { background: #fff; border-radius: 18px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .banner-prepaid { background: #ebf8ff; color: #2b6cb0; padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 6px; }
+    .banner-special { background: #e6fffa; color: #234e52; padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 6px; }
+    .delivery-info { font-size: 12px; color: #4a5568; line-height: 1.8; margin-top: 6px; }
+    .size-pill { background: var(--grad-btn); color: #fff; padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin-top: 6px; font-weight: 600; }
+    .bar-outer { width: 100%; height: 8px; background: #feebc8; border-radius: 5px; overflow: hidden; margin-top: 3px; }
+    .bar-inner { height: 100%; background: #d69e2e; border-radius: 5px; }
 
-    /* Loading Status */
-    .loading-text { grid-column: 1 / -1; text-align: center; padding: 30px; font-size: 14px; color: #777; }
+    /* Sticky Bottom Actions */
+    .detail-bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; padding: 10px 14px; display: flex; gap: 10px; border-top: 1px solid #edf2f7; z-index: 210; }
+    .btn-buy { flex: 1; padding: 12px; background: #fff; color: #1a365d; border: 1.5px solid #1a365d; border-radius: 25px; font-weight: 700; font-size: 13px; }
+    .btn-cart { flex: 1; padding: 12px; background: var(--grad-btn); color: #fff; border: none; border-radius: 25px; font-weight: 700; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
-    /* Bottom Bar */
-    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 56px; background: #fff; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #e0e0e0; z-index: 100; }
-    .nav-btn { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #777; font-weight: 600; cursor: pointer; }
-    .nav-btn.active { color: #9c27b0; }
-    .nav-icon { font-size: 18px; margin-bottom: 2px; }
+    /* Bottom Dock Bar */
+    .bottom-dock { position: fixed; bottom: 12px; left: 14px; right: 14px; height: 60px; background: #ffffff; border-radius: 35px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.08); z-index: 100; }
+    .dock-btn { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 600; color: #718096; gap: 2px; }
+    .dock-btn.active { color: #1a365d; }
+    .dock-icon { font-size: 16px; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-top">
-      <div class="brand">meesho<span>loot</span></div>
-      <div class="offer-pill">⚡ ₹230–₹250 OFF Applied</div>
+  <!-- Top App Bar -->
+  <div class="top-bar">
+    <div class="avatar-btn">K</div>
+    <div class="phone-pill">
+      <span>📱 63802 16979</span>
+      <span style="font-size:10px;">▼</span>
     </div>
-    <div class="search-wrap">
-      <input type="text" id="searchInput" class="search-box" placeholder="Search any product on Meesho..." onkeydown="if(event.key==='Enter') searchLive()">
-    </div>
-    <div class="categories" id="catList">
-      <button class="cat-btn active" onclick="setCategory('all', this)">All Deals</button>
-      <button class="cat-btn" onclick="setCategory('fashion', this)">👗 Kurti & Sarees</button>
-      <button class="cat-btn" onclick="setCategory('mens', this)">👕 Men's Wear</button>
-      <button class="cat-btn" onclick="setCategory('gadgets', this)">🎧 Electronics</button>
-      <button class="cat-btn" onclick="setCategory('shoes', this)">👟 Footwear</button>
-      <button class="cat-btn" onclick="setCategory('beauty', this)">💄 Beauty & Care</button>
-      <button class="cat-btn" onclick="setCategory('kitchen', this)">🍳 Home & Kitchen</button>
-    </div>
+    <div class="wallet-pill">💰 ₹10</div>
   </div>
 
-  <!-- Grid -->
-  <div class="grid" id="productGrid">
-    <div class="loading-text">🔄 Loading live Meesho catalog...</div>
+  <!-- Search / Link Switch -->
+  <div class="switch-wrap">
+    <div class="switch-item active">🔍 Search</div>
+    <div class="switch-item" onclick="alert('Paste direct Meesho link to fetch deal!')">🔗 By Link</div>
   </div>
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-bar">
-    <div class="nav-btn active"><span class="nav-icon">🛍️</span>Shop</div>
-    <div class="nav-btn" onclick="alert('⚡ Exclusive Loot Activated on All Products!')"><span class="nav-icon">🔥</span>Loot Deals</div>
-    <div class="nav-btn" onclick="alert('Cart is empty. Select any item to order!')"><span class="nav-icon">🛒</span>Cart</div>
-    <div class="nav-btn" onclick="alert('Account Status: Active (1st Order Discount Applied)')"><span class="nav-icon">👤</span>Account</div>
+  <!-- Search Input -->
+  <div class="search-box">
+    <span style="margin-right:8px;">🔍</span>
+    <input type="text" id="searchInput" placeholder="trending" oninput="handleSearch()">
+  </div>
+
+  <!-- Filter Chips -->
+  <div class="pill-scroll">
+    <button class="chip active" onclick="filterCategory('all', this)">😍 Trending</button>
+    <button class="chip" onclick="filterCategory('deals', this)">🔥 Deals</button>
+    <button class="chip" onclick="filterCategory('new', this)">👗 New</button>
+    <button class="chip" onclick="filterCategory('gadgets', this)">🎧 Gadgets</button>
+    <button class="chip" onclick="filterCategory('shoes', this)">👟 Footwear</button>
+  </div>
+
+  <!-- Sort Chips -->
+  <div class="pill-scroll" style="padding-top:2px;">
+    <button class="chip active">Relevance</button>
+    <button class="chip" onclick="sortItems('asc')">Price ↑</button>
+    <button class="chip" onclick="sortItems('desc')">Price ↓</button>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="grid" id="productGrid"></div>
+
+  <!-- Bottom Capsule Dock -->
+  <div class="bottom-dock">
+    <div class="dock-btn active"><span class="dock-icon">🔍</span>Search</div>
+    <div class="dock-btn" onclick="alert('Cart empty!')"><span class="dock-icon">🛒</span>Cart</div>
+    <div class="dock-btn" onclick="alert('No orders yet!')"><span class="dock-icon">📦</span>Orders</div>
+    <div class="dock-btn" onclick="alert('Add delivery address')"><span class="dock-icon">📍</span>Address</div>
+    <div class="dock-btn" onclick="alert('Invite & earn up to ₹250!')"><span class="dock-icon">🎁</span>Refer</div>
+    <div class="dock-btn" onclick="alert('Logged in: +91 63802 16979')"><span class="dock-icon">👤</span>Account</div>
+  </div>
+
+  <!-- Product Detail Page (Modal) -->
+  <div id="detailView">
+    <div class="detail-header">
+      <div class="back-btn" onclick="closeDetail()">←</div>
+      <div class="detail-title-top" id="dTopTitle">Product Details</div>
+    </div>
+    <div class="detail-img-box">
+      <img id="dImg" src="" alt="Product">
+    </div>
+    <div class="detail-content">
+      <div class="detail-card">
+        <h3 id="dTitle" style="font-size:14px; font-weight:600; color:#1a202c;"></h3>
+        <div class="price-row" style="margin-top:8px;">
+          <span class="price-main" id="dPrice" style="font-size:20px;"></span>
+          <span class="price-mrp" id="dMrp" style="font-size:14px;"></span>
+          <span class="off-pill" id="dOff"></span>
+        </div>
+        <div class="banner-prepaid" id="dPrepaid">⚡ ₹93 with prepaid • ₹22 off</div>
+        <div class="meta-row" style="margin-top:8px;">
+          <span class="rating-badge" id="dRating">★ 3.9</span>
+          <span id="dReviews">8,338 ratings</span>
+        </div>
+        <div style="font-size:12px; color:#718096; margin-top:4px;" id="dSeller">Sold by SMKNTEnterprises • ★ 4.0 (66,059)</div>
+        <div class="delivery-info">
+          🚚 Delivery by — Wednesday, 23 Sep<br>
+          📦 Delivery FREE<br>
+          💵 Cash on Delivery available
+        </div>
+        <div class="banner-special">🎉 ₹93 with 1 Special Offer</div>
+      </div>
+
+      <div class="detail-card">
+        <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Select size</div>
+        <div class="size-pill">Free Size</div>
+      </div>
+
+      <div class="detail-card">
+        <div style="font-size:13px; font-weight:700;">What customers say</div>
+        <div class="bar-row"><span>Ok-Ok Color</span><span style="color:#d69e2e;">66%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:66%;"></div></div>
+        <div class="bar-row"><span>Ok-Ok Material</span><span style="color:#d69e2e;">67%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:67%;"></div></div>
+        <div class="bar-row"><span>Ok-Ok Quantity</span><span style="color:#d69e2e;">69%</span></div>
+        <div class="bar-outer"><div class="bar-inner" style="width:69%;"></div></div>
+      </div>
+    </div>
+    <div class="detail-bottom-bar">
+      <button class="btn-buy" onclick="submitOrder('BUY_NOW')">Buy Now</button>
+      <button class="btn-cart" onclick="submitOrder('ADD_CART')">Add to Cart 🛒</button>
+    </div>
   </div>
 
   <script>
     const tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); tg.ready(); }
 
-    // Pre-loaded popular catalog
-    const LOCAL_CATALOG = [
-      { category: "fashion", title: "Women Floral Printed Pure Cotton Anarkali Kurti", mrp: 499, upi: 49, cod: 110, img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" },
-      { category: "fashion", title: "Embroidered Georgette Designer Partywear Saree", mrp: 599, upi: 55, cod: 125, img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=400&q=80" },
-      { category: "mens", title: "Men Oversized Pure Cotton Graphic Printed T-Shirt", mrp: 399, upi: 45, cod: 99, img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&q=80" },
-      { category: "mens", title: "Men Slim Fit Casual Cargo Pants with Pockets", mrp: 549, upi: 52, cod: 119, img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&q=80" },
-      { category: "gadgets", title: "Wireless Bluetooth Magnetic Neckband 40H Playtime", mrp: 549, upi: 49, cod: 115, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80" },
-      { category: "gadgets", title: "Deep Bass Type-C Gaming In-Ear Earphones", mrp: 349, upi: 39, cod: 89, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" },
-      { category: "shoes", title: "Ultra Lightweight Mesh Running Sports Shoes", mrp: 599, upi: 58, cod: 129, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80" },
-      { category: "shoes", title: "Casual Daily Wear Slip-on Canvas Loafers", mrp: 450, upi: 47, cod: 109, img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400&q=80" },
-      { category: "beauty", title: "Organic Vitamin-C Face Serum with Hyaluronic Acid", mrp: 420, upi: 44, cod: 95, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80" },
-      { category: "kitchen", title: "Non-Stick Aluminium Fry Pan with Cool Touch Handle", mrp: 520, upi: 54, cod: 120, img: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=400&q=80" }
+    const PRODUCTS = [
+      {
+        id: 1,
+        cat: "deals",
+        title: "Trending linear roller curve highlighter pens set of 6 (Multicolor).",
+        price: 113,
+        mrp: 115,
+        prepaid: 93,
+        img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500&q=80",
+        rating: "★ 3.9",
+        reviews: "8338 ratings",
+        seller: "SMKNTEnterprises"
+      },
+      {
+        id: 2,
+        cat: "deals",
+        title: "Women Oval Sunglasses Classic Vintage UV400 Protection",
+        price: 159,
+        mrp: 160,
+        prepaid: 139,
+        img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80",
+        rating: "★ 4.2",
+        reviews: "4210 ratings",
+        seller: "A LUINS"
+      },
+      {
+        id: 3,
+        cat: "gadgets",
+        title: "Wireless Bluetooth Neckband with Fast Charge 40H Playtime",
+        price: 129,
+        mrp: 499,
+        prepaid: 99,
+        img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80",
+        rating: "★ 4.1",
+        reviews: "12890 ratings",
+        seller: "SoundPro India"
+      },
+      {
+        id: 4,
+        cat: "new",
+        title: "Women Floral Printed Pure Cotton Anarkali Kurti",
+        price: 145,
+        mrp: 450,
+        prepaid: 115,
+        img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80",
+        rating: "★ 4.0",
+        reviews: "5600 ratings",
+        seller: "Fashion Hub"
+      },
+      {
+        id: 5,
+        cat: "shoes",
+        title: "Lightweight Breathable Mesh Running Sports Shoes",
+        price: 149,
+        mrp: 599,
+        prepaid: 119,
+        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",
+        rating: "★ 4.3",
+        reviews: "9120 ratings",
+        seller: "StepWell Footwear"
+      },
+      {
+        id: 6,
+        cat: "gadgets",
+        title: "Deep Bass Type-C Gaming In-Ear Wired Earphones",
+        price: 99,
+        mrp: 299,
+        prepaid: 79,
+        img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
+        rating: "★ 3.8",
+        reviews: "3200 ratings",
+        seller: "TechGear"
+      }
     ];
 
-    let currentProducts = [...LOCAL_CATALOG];
-    let activeCat = "all";
+    let activeItems = [...PRODUCTS];
+    let selectedItem = null;
 
-    function render(items) {
+    function renderGrid(items) {
       const grid = document.getElementById("productGrid");
       grid.innerHTML = "";
-      if (items.length === 0) {
-        grid.innerHTML = '<div class="loading-text">❌ No products found for this search. Press Enter to search all.</div>';
-        return;
-      }
       items.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
+        card.onclick = () => openDetail(p);
         card.innerHTML = `
           <div class="card-img-wrap">
-            <span class="tag-badge">MEESHO LOOT</span>
             <img src="${p.img}" class="card-img" alt="${p.title}" loading="lazy">
           </div>
-          <div class="card-details">
-            <div class="title">${p.title}</div>
+          <div class="card-body">
+            <div class="card-title">${p.title}</div>
             <div class="price-row">
-              <span class="price-upi">₹${p.upi}</span>
+              <span class="price-main">₹${p.price}</span>
               <span class="price-mrp">₹${p.mrp}</span>
-              <span class="discount-badge">${Math.round(((p.mrp - p.upi)/p.mrp)*100)}% OFF</span>
+              <span class="off-pill">₹${p.mrp - p.price} off</span>
             </div>
-            <div class="cod-note">Cash on Delivery: ₹${p.cod}</div>
-            <button class="btn-claim" onclick="claim('${p.title.replace(/'/g, "")}', ${p.upi})">Claim for ₹${p.upi}</button>
+            <div class="meta-row">
+              <span class="rating-badge">${p.rating}</span>
+              <span>${p.seller}</span>
+            </div>
+            <div class="dispatch-badge">⚡ NEXT DAY DISPATCH</div>
+            <button class="btn-add-card" onclick="event.stopPropagation(); openDetail(${JSON.stringify(p).replace(/"/g, '&quot;')})">Add</button>
           </div>
         `;
         grid.appendChild(card);
       });
     }
 
-    // Live Search from Online API when typing
-    async function searchLive() {
-      const q = document.getElementById("searchInput").value.trim();
-      if (!q) { render(LOCAL_CATALOG); return; }
-
-      const grid = document.getElementById("productGrid");
-      grid.innerHTML = `<div class="loading-text">🔍 Searching Meesho servers for "${q}"...</div>`;
-
-      try {
-        const res = await fetch(`https://dummyjson.com/products/search?q=${encodeURIComponent(q)}`);
-        const data = await res.json();
-        if (data.products && data.products.length > 0) {
-          const fetched = data.products.map(p => {
-            const mrp = Math.round(p.price * 25);
-            const upi = Math.floor(Math.random() * (55 - 42 + 1)) + 42; // ₹42 to ₹55
-            const cod = upi + Math.floor(Math.random() * (65 - 50 + 1)) + 50;
-            return {
-              category: "search",
-              title: p.title + " - " + p.description.substring(0, 30),
-              mrp: Math.max(mrp, 350),
-              upi: upi,
-              cod: cod,
-              img: p.thumbnail
-            };
-          });
-          render(fetched);
-        } else {
-          // Local fallback filter
-          const filtered = LOCAL_CATALOG.filter(p => p.title.toLowerCase().includes(q.toLowerCase()));
-          render(filtered);
-        }
-      } catch (err) {
-        const filtered = LOCAL_CATALOG.filter(p => p.title.toLowerCase().includes(q.toLowerCase()));
-        render(filtered);
-      }
+    function openDetail(p) {
+      selectedItem = p;
+      document.getElementById("dTopTitle").innerText = p.title;
+      document.getElementById("dImg").src = p.img;
+      document.getElementById("dTitle").innerText = p.title;
+      document.getElementById("dPrice").innerText = "₹" + p.price;
+      document.getElementById("dMrp").innerText = "₹" + p.mrp;
+      document.getElementById("dOff").innerText = "₹" + (p.mrp - p.price) + " off";
+      document.getElementById("dPrepaid").innerText = `⚡ ₹${p.prepaid} with prepaid • ₹${p.price - p.prepaid} off`;
+      document.getElementById("dRating").innerText = p.rating;
+      document.getElementById("dReviews").innerText = p.reviews;
+      document.getElementById("dSeller").innerText = `Sold by ${p.seller}`;
+      document.getElementById("detailView").style.display = "block";
     }
 
-    function setCategory(cat, el) {
-      activeCat = cat;
-      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
-      el.classList.add("active");
-      document.getElementById("searchInput").value = "";
-
-      if (cat === "all") {
-        render(LOCAL_CATALOG);
-      } else {
-        render(LOCAL_CATALOG.filter(p => p.category === cat));
-      }
+    function closeDetail() {
+      document.getElementById("detailView").style.display = "none";
     }
 
-    function claim(name, price) {
+    function submitOrder(action) {
+      if (!selectedItem) return;
       if (tg) {
-        tg.sendData(JSON.stringify({ product: name, price: price }));
+        tg.sendData(JSON.stringify({
+          action: action,
+          product: selectedItem.title,
+          price: selectedItem.prepaid
+        }));
         tg.close();
       } else {
-        alert("Ordered: " + name + " for ₹" + price);
+        alert(`${action} triggered for ₹${selectedItem.prepaid}!`);
       }
     }
 
-    // Auto-fetch additional products on load
-    async function loadMoreProducts() {
-      try {
-        const res = await fetch("https://dummyjson.com/products?limit=20");
-        const data = await res.json();
-        if (data.products) {
-          const more = data.products.map(p => ({
-            category: "all",
-            title: p.title + " | " + (p.brand || "Clearance Store"),
-            mrp: Math.round(p.price * 22),
-            upi: Math.floor(Math.random() * (55 - 42 + 1)) + 42,
-            cod: Math.floor(Math.random() * (120 - 95 + 1)) + 95,
-            img: p.thumbnail
-          }));
-          currentProducts = [...LOCAL_CATALOG, ...more];
-          render(currentProducts);
-        }
-      } catch (e) {
-        render(LOCAL_CATALOG);
-      }
+    function filterCategory(cat, el) {
+      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      if (el) el.classList.add("active");
+      activeItems = (cat === "all") ? PRODUCTS : PRODUCTS.filter(p => p.cat === cat);
+      renderGrid(activeItems);
     }
 
-    loadMoreProducts();
+    function sortItems(dir) {
+      activeItems.sort((a, b) => dir === "asc" ? a.price - b.price : b.price - a.price);
+      renderGrid(activeItems);
+    }
+
+    function handleSearch() {
+      const q = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = PRODUCTS.filter(p => p.title.toLowerCase().includes(q));
+      renderGrid(filtered);
+    }
+
+    renderGrid(PRODUCTS);
   </script>
 </body>
 </html>
+
