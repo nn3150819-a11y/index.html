@@ -3,136 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Meesho Mini Store</title>
+  <title>Meesho Loot Store</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-    body { background-color: #f7f7f9; color: #333; padding-bottom: 70px; }
-    
-    /* Top Bar */
-    .top-header { background: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eaeaea; position: sticky; top: 0; z-index: 10; }
-    .logo { font-weight: 800; font-size: 18px; color: #9c27b0; }
-    .wallet-badge { background: #fdf0f0; color: #e91e63; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
-
-    /* Search Bar */
-    .search-container { padding: 10px 16px; background: #fff; border-bottom: 1px solid #eee; }
-    .search-box { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-
-    /* Categories Horizontal Scroll */
-    .cat-scroll { display: flex; overflow-x: auto; gap: 8px; padding: 10px 16px; background: #fff; scrollbar-width: none; }
-    .cat-chip { padding: 6px 14px; background: #f0f0f5; border-radius: 16px; font-size: 13px; white-space: nowrap; font-weight: 500; cursor: pointer; }
-    .cat-chip.active { background: #9c27b0; color: #fff; }
-
-    /* Product Grid */
-    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 16px; }
-    .product-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
-    .img-box { height: 130px; background: #eef1f6; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-    .info-box { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
-    .p-title { font-size: 12px; font-weight: 500; height: 34px; overflow: hidden; margin-bottom: 6px; line-height: 1.3; }
-    .prices { display: flex; align-items: baseline; gap: 6px; }
-    .final-price { font-size: 16px; font-weight: 700; color: #111; }
-    .mrp { font-size: 12px; color: #888; text-decoration: line-through; }
-    .discount-pill { font-size: 11px; color: #388e3c; font-weight: 600; }
-    .btn-add { margin-top: 8px; padding: 8px; background: #9c27b0; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px; width: 100%; }
-
-    /* Bottom Nav Bar */
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 56px; display: flex; border-top: 1px solid #e0e0e0; justify-content: space-around; align-items: center; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #666; cursor: pointer; gap: 2px; }
-    .nav-item.active { color: #9c27b0; font-weight: bold; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #f4f4f6; color: #222; padding-bottom: 75px; }
+    .header { position: sticky; top: 0; background: #fff; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; }
+    .brand { font-size: 20px; font-weight: 900; color: #9c27b0; }
+    .brand span { color: #f43397; }
+    .offer-pill { background: #ffe6f0; color: #f43397; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid #ffb3d1; }
+    .search-wrap { padding: 0 14px 10px 14px; }
+    .search-box { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; background: #f9f9fb; font-size: 14px; outline: none; }
+    .categories { display: flex; overflow-x: auto; gap: 8px; padding: 6px 14px 12px 14px; scrollbar-width: none; }
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-btn { padding: 6px 14px; border-radius: 20px; background: #eee; font-size: 12px; font-weight: 600; white-space: nowrap; border: none; cursor: pointer; color: #555; }
+    .cat-btn.active { background: #9c27b0; color: #fff; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 14px; }
+    .card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+    .card-img-wrap { width: 100%; height: 155px; overflow: hidden; background: #f0f0f0; position: relative; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; }
+    .tag-badge { position: absolute; top: 8px; left: 8px; background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+    .card-details { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
+    .title { font-size: 12px; font-weight: 500; height: 32px; overflow: hidden; line-height: 1.3; color: #444; margin-bottom: 6px; }
+    .price-row { display: flex; align-items: baseline; gap: 6px; }
+    .price-upi { font-size: 16px; font-weight: 800; color: #2e7d32; }
+    .price-mrp { font-size: 11px; color: #888; text-decoration: line-through; }
+    .discount-badge { font-size: 10px; color: #d32f2f; font-weight: 700; }
+    .cod-note { font-size: 10px; color: #777; margin-top: 3px; }
+    .btn-claim { margin-top: 8px; width: 100%; padding: 8px; border: none; background: #9c27b0; color: #fff; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 56px; background: #fff; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #e0e0e0; z-index: 100; }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #777; font-weight: 600; cursor: pointer; }
+    .nav-btn.active { color: #9c27b0; }
+    .nav-icon { font-size: 18px; margin-bottom: 2px; }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: #888; font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <div class="top-header">
-    <div class="logo">Meesho Loot</div>
-    <div class="wallet-badge">Active: ₹220 OFF</div>
-  </div>
-
-  <div class="search-container">
-    <input type="text" class="search-box" placeholder="Search for items...">
-  </div>
-
-  <div class="cat-scroll">
-    <div class="cat-chip active">All Deals</div>
-    <div class="cat-chip">🔥 Loot Deals</div>
-    <div class="cat-chip">👕 Fashion</div>
-    <div class="cat-chip">🎧 Gadgets</div>
-    <div class="cat-chip">🕶 Accessories</div>
-  </div>
-
-  <div class="product-grid">
-    <!-- Item 1 -->
-    <div class="product-card">
-      <div class="img-box">👕</div>
-      <div class="info-box">
-        <div class="p-title">Cotton Oversized Graphic Print T-Shirt</div>
-        <div class="prices">
-          <span class="final-price">₹49</span>
-          <span class="mrp">₹399</span>
-          <span class="discount-pill">87% OFF</span>
-        </div>
-        <button class="btn-add" onclick="placeOrder('Cotton T-Shirt', 49)">Claim Deal</button>
-      </div>
+  <div class="header">
+    <div class="header-top">
+      <div class="brand">meesho<span>loot</span></div>
+      <div class="offer-pill">⚡ ₹230–₹250 OFF Applied</div>
     </div>
-
-    <!-- Item 2 -->
-    <div class="product-card">
-      <div class="img-box">🕶</div>
-      <div class="info-box">
-        <div class="p-title">Retro Vintage Sunglasses UV400</div>
-        <div class="prices">
-          <span class="final-price">₹45</span>
-          <span class="mrp">₹420</span>
-          <span class="discount-pill">89% OFF</span>
-        </div>
-        <button class="btn-add" onclick="placeOrder('Retro Sunglasses', 45)">Claim Deal</button>
-      </div>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" class="search-box" placeholder="Search t-shirts, kurti, shoes..." oninput="filterProducts()">
     </div>
-
-    <!-- Item 3 -->
-    <div class="product-card">
-      <div class="img-box">🎧</div>
-      <div class="info-box">
-        <div class="p-title">Wireless Bluetooth Neckband Bass</div>
-        <div class="prices">
-          <span class="final-price">₹55</span>
-          <span class="mrp">₹499</span>
-          <span class="discount-pill">88% OFF</span>
-        </div>
-        <button class="btn-add" onclick="placeOrder('Bluetooth Neckband', 55)">Claim Deal</button>
-      </div>
-    </div>
-
-    <!-- Item 4 -->
-    <div class="product-card">
-      <div class="img-box">🌾</div>
-      <div class="info-box">
-        <div class="p-title">Sattu 1Kg | Pure Energy Drink Mix</div>
-        <div class="prices">
-          <span class="final-price">₹45</span>
-          <span class="mrp">₹454</span>
-          <span class="discount-pill">90% OFF</span>
-        </div>
-        <button class="btn-add" onclick="placeOrder('Sattu 1Kg', 45)">Claim Deal</button>
-      </div>
+    <div class="categories" id="catList">
+      <button class="cat-btn active" onclick="setCategory('all', this)">All Deals</button>
+      <button class="cat-btn" onclick="setCategory('fashion', this)">👕 Fashion</button>
+      <button class="cat-btn" onclick="setCategory('gadgets', this)">🎧 Gadgets</button>
+      <button class="cat-btn" onclick="setCategory('shoes', this)">👟 Shoes</button>
+      <button class="cat-btn" onclick="setCategory('watches', this)">⌚ Watches</button>
     </div>
   </div>
 
-  <div class="bottom-nav">
-    <div class="nav-item active"><span>🔍</span>Search</div>
-    <div class="nav-item"><span>🛒</span>Cart</div>
-    <div class="nav-item"><span>📦</span>Orders</div>
-    <div class="nav-item"><span>👤</span>Account</div>
+  <div class="grid" id="productGrid"></div>
+
+  <div class="bottom-bar">
+    <div class="nav-btn active"><span class="nav-icon">🛍️</span>Shop</div>
+    <div class="nav-btn"><span class="nav-icon">🔥</span>Loot</div>
+    <div class="nav-btn"><span class="nav-icon">🛒</span>Cart</div>
+    <div class="nav-btn"><span class="nav-icon">👤</span>Account</div>
   </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); tg.ready(); }
 
-    function placeOrder(name, price) {
-      tg.sendData(JSON.stringify({ product: name, price: price }));
-      tg.close();
+    const PRODUCTS = [
+      { id: 1, category: "fashion", title: "Men Pure Cotton Regular Fit Solid T-Shirt", mrp: 399, upi: 45, cod: 99, img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&q=80" },
+      { id: 2, category: "fashion", title: "Women Floral Printed Anarkali Kurti Cotton", mrp: 499, upi: 49, cod: 110, img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" },
+      { id: 3, category: "gadgets", title: "Wireless Bluetooth Neckband with Fast Charge", mrp: 549, upi: 49, cod: 119, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80" },
+      { id: 4, category: "gadgets", title: "Deep Bass Type-C Gaming In-Ear Earphones", mrp: 349, upi: 39, cod: 89, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" },
+      { id: 5, category: "shoes", title: "Lightweight Breathable Running Sports Shoes", mrp: 599, upi: 59, cod: 129, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80" },
+      { id: 6, category: "watches", title: "Classic Minimalist Matte Analog Dial Watch", mrp: 499, upi: 48, cod: 105, img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=400&q=80" }
+    ];
+
+    let currentCategory = "all";
+
+    function renderProducts(items) {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+      if (items.length === 0) {
+        grid.innerHTML = '<div class="no-results">❌ No products found!</div>';
+        return;
+      }
+      items.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-img-wrap">
+            <span class="tag-badge">VIP OFFER</span>
+            <img src="${p.img}" class="card-img" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="card-details">
+            <div class="title">${p.title}</div>
+            <div class="price-row">
+              <span class="price-upi">₹${p.upi}</span>
+              <span class="price-mrp">₹${p.mrp}</span>
+              <span class="discount-badge">${Math.round(((p.mrp - p.upi)/p.mrp)*100)}% OFF</span>
+            </div>
+            <div class="cod-note">Cash on Delivery: ₹${p.cod}</div>
+            <button class="btn-claim" onclick="claimProduct('${p.title.replace(/'/g, "")}', ${p.upi})">Claim for ₹${p.upi}</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
     }
+
+    function setCategory(cat, el) {
+      currentCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      el.classList.add("active");
+      filterProducts();
+    }
+
+    function filterProducts() {
+      const q = document.getElementById("searchInput").value.toLowerCase().trim();
+      let filtered = PRODUCTS;
+      if (currentCategory !== "all") {
+        filtered = filtered.filter(p => p.category === currentCategory);
+      }
+      if (q) {
+        filtered = filtered.filter(p => p.title.toLowerCase().includes(q));
+      }
+      renderProducts(filtered);
+    }
+
+    function claimProduct(name, upiPrice) {
+      if (tg) {
+        tg.sendData(JSON.stringify({ product: name, price: upiPrice }));
+        tg.close();
+      } else {
+        alert("Selected: " + name + " for ₹" + upiPrice);
+      }
+    }
+
+    renderProducts(PRODUCTS);
   </script>
 </body>
 </html>
